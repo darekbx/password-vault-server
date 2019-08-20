@@ -1,0 +1,1 @@
+sudo GOPATH=/home/pi/gopath go run /home/pi/password-vault/bluetooth/server.go

@@ -3,9 +3,10 @@ import base64
 
 class Encryption:
 
+    _saltPrefixFile = "salt_prefix"
     _encoding = "utf-8"
     _saltEncoding = "ascii"
-    _saltSufix = "hXjJGMdKegjLIYmQrnEMIpDrjpR_"
+    _saltPrefix = None
 
     _salt = None
     
@@ -16,6 +17,8 @@ class Encryption:
         salt : str
             The four character salt
         """
+        with open(self._saltPrefixFile, "r") as handle:
+            self._saltPrefix = handle.readline().rstrip()
         self._salt = salt
 
     def encode(self, secret):
@@ -31,5 +34,5 @@ class Encryption:
         return decodedSecret.decode(self._encoding)
 
     def _createSalt(self):
-        salt = "{0}{1}".format(self._saltSufix, self._salt).encode(self._saltEncoding)
+        salt = "{0}{1}".format(self._saltPrefix, self._salt).encode(self._saltEncoding)
         return base64.urlsafe_b64encode(salt)
