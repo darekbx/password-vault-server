@@ -20,15 +20,12 @@ class MainMenu:
         draw = ImageDraw.Draw(image)
         
         draw.line([(0,0),(127,0)], fill = "BLUE",width = 5)
-        draw.line([(127,0),(127,127)], fill = "BLUE",width = 5)
-        draw.line([(127,127),(0,127)], fill = "BLUE",width = 5)
+        draw.line([(127,0),(127,63)], fill = "BLUE",width = 5)
+        draw.line([(127,63),(0,63)], fill = "BLUE",width = 5)
         draw.line([(0,127),(0,0)], fill = "BLUE",width = 5)
         
         draw.rectangle([(18,10),(110,20)],fill = "RED")
-        
         draw.text((33, 22), 'WaveShare ', fill = "BLUE")
-        draw.text((32, 36), 'Electronic ', fill = "BLUE")
-        draw.text((28, 48), '1.44inch LCD ', fill = "BLUE")
 
         LCD.LCD_ShowImage(image,0,0)
 
