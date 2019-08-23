@@ -1,1 +1,3 @@
 *.pyc
+vault.json
+salt_prefix
