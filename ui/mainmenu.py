@@ -29,11 +29,11 @@ class MainMenu:
 
         draw.text((33, 22), 'Hello ', fill = "WHITE")
 
-        self.display_battery(draw, 70)
+        self.display_battery(draw, 100, True)
 
         self.LCD.LCD_ShowImage(image,0,0)
 
-    def display_battery(self, draw, battery_level):
+    def display_battery(self, draw, battery_level, is_charging=False):
         """
         Parameters
         ----------
@@ -41,10 +41,17 @@ class MainMenu:
             Battery level in percent
         """
         color = "RED" if battery_level < 20 else "GREEN"
-        value = 16 * (battery_level / 100)
-        draw.rectangle([(104, 2), (124, 8)], outline = "WHITE") 
-        draw.rectangle([(124, 4), (126, 6)], fill = "WHITE")
-        draw.rectangle([(106, 4), (104 + value, 6)], fill = color)
+        value = 18 * (battery_level / 100)
+        draw.rectangle([(104, 2), (124, 10)], outline = "WHITE") 
+        draw.rectangle([(124, 6), (126, 8)], fill = "WHITE")
+        draw.rectangle([(106, 4), (104 + value, 8)], fill = color)
+
+        if is_charging:
+            draw.line((108, 7, 114, 5, 114, 5, 114, 7, 114, 7, 120, 5), fill = "WHITE")
 
     def debug_ShowImage(self, image, x, y):
         image.show()
+
+m = MainMenu()
+m.init_LCD()
+m.display()
