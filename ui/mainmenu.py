@@ -19,9 +19,9 @@ class MainMenu:
         else:
             import SH1106
 
-            disp = SH1106.SH1106()
-            disp.Init()
-            disp.clear()
+            self.disp = SH1106.SH1106()
+            self.disp.Init()
+            self.disp.clear()
     
     def display(self):
         image = Image.new("RGB", (self.disp.width, self.disp.height), "BLACK")
@@ -35,7 +35,7 @@ class MainMenu:
     def display_secrets(self, draw, secrets):
         x = 4
         y = 12
-        fnt = ImageFont.truetype('Pillow/Tests/fonts/DejaVuSans.ttf', 12)
+        fnt = ImageFont.truetype('Font.ttf', 12)
         for index, secret in enumerate(secrets):
             if self.selectedItem == index:
                 draw.ellipse((5, y + 5, 9, y + 9), fill = (70,130,180))
