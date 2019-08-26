@@ -6,32 +6,31 @@ from PIL import ImageColor
 
 class MainMenu:
 
-    isDebug = True
-    LCD = None
+    isDebug = False
+    disp = None
 
     def init_LCD(self):
         if self.isDebug:
-            self.LCD = type('Expando', (object,), {})()
-            self.LCD.width = 128
-            self.LCD.height = 64
-            self.LCD.LCD_ShowImage = self.debug_ShowImage
+            self.disp = type('Expando', (object,), {})()
+            self.disp.width = 128
+            self.disp.height = 64
+            #self.disp.ShowImage(disp.getbuffer = self.debug_ShowImage
         else:
-            import LCD_1in44
-            import LCD_Config
+            import SH1106
 
-            self.LCD = LCD_1in44.LCD()
-            Lcd_ScanDir = self.LCD_1in44.SCAN_DIR_DFT  #SCAN_DIR_DFT = D2U_L2R
-            self.LCD.LCD_Init(Lcd_ScanDir)
+            disp = SH1106.SH1106()
+            disp.Init()
+            disp.clear()
     
     def display(self):
-        image = Image.new("RGB", (self.LCD.width, self.LCD.height), "BLACK")
+        image = Image.new("RGB", (self.disp.width, self.disp.height), "BLACK")
         draw = ImageDraw.Draw(image)
 
         draw.text((33, 22), 'Hello ', fill = "WHITE")
 
         self.display_battery(draw, 100, True)
 
-        self.LCD.LCD_ShowImage(image,0,0)
+        self.disp.ShowImage(self.disp.getbuffer(image))
 
     def display_battery(self, draw, battery_level, is_charging=False):
         """
