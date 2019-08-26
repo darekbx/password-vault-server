@@ -8,6 +8,7 @@ class MainMenu:
 
     isDebug = True
     LCD = None
+    selectedItem = 2
 
     def init_LCD(self):
         if self.isDebug:
@@ -27,11 +28,20 @@ class MainMenu:
         image = Image.new("RGB", (self.LCD.width, self.LCD.height), "BLACK")
         draw = ImageDraw.Draw(image)
 
-        draw.text((33, 22), 'Hello ', fill = "WHITE")
-
         self.display_battery(draw, 100, True)
+        self.display_secrets(draw, ["Gmail", "Facebook", "Lego", "Twitter"])
 
         self.LCD.LCD_ShowImage(image,0,0)
+
+    def display_secrets(self, draw, secrets):
+        x = 4
+        y = 12
+        fnt = ImageFont.truetype('Pillow/Tests/fonts/DejaVuSans.ttf', 12)
+        for index, secret in enumerate(secrets):
+            if self.selectedItem == index:
+                draw.ellipse((5, y + 5, 9, y + 9), fill = (70,130,180))
+            draw.text((14, y), secret, font = fnt, fill = "WHITE")
+            y += 12
 
     def display_battery(self, draw, battery_level, is_charging=False):
         """
