@@ -1,5 +1,5 @@
 class Display_LCD:
-	
+
 	_disp = None
 	_is_debug = False
 

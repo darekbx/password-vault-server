@@ -1,4 +1,5 @@
 import threading
+import time
 from enum import Enum
 
 class Buttons_HW:
@@ -24,19 +25,21 @@ class Buttons_HW:
 			self.handle_key(Buttons_HW.Key.CENTER)
 		else:
 			import RPi.GPIO as GPIO
-			GPIO.setup(self.joystickUp, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-			GPIO.setup(self.joystickDown, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-			GPIO.setup(self.joystickCenter, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+			GPIO.setup(self.joystickUp, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+			GPIO.setup(self.joystickDown, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+			GPIO.setup(self.joystickCenter, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 			threading.Thread(target=self.buttons_worker).start()
 
 	def buttons_worker(self):
+		import RPi.GPIO as GPIO
 		while True:
-			if GPIO.input(self.joystickUp) == GPIO.HIGH:
+			if GPIO.input(self.joystickUp) == False:
 				self.handle_key(Buttons_HW.Key.UP)
-			elif GPIO.input(self.joystickDown) == GPIO.HIGH:
+			elif GPIO.input(self.joystickDown) == False:
 				self.handle_key(Buttons_HW.Key.DOWN)
-			elif GPIO.input(self.joystickCenter) == GPIO.HIGH:
+			elif GPIO.input(self.joystickCenter) == False:
 				self.handle_key(Buttons_HW.Key.CENTER)
+			time.sleep(0.2)
 
 	def handle_key(self, key):
 		self.callback(key)

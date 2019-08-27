@@ -9,7 +9,7 @@ from buttons_HW import Buttons_HW
 
 class MainMenu:
 
-    isDebug = True
+    isDebug = False
     selectedItem = 2
     lcd = None
     buttons = None
@@ -59,7 +59,7 @@ class MainMenu:
             draw.line((108, 7, 114, 5, 114, 5, 114, 7, 114, 7, 120, 5), fill = "WHITE")
 
     def provide_font(self):
-        return ImageFont.truetype('Font.ttf', 9)
+        return ImageFont.truetype('Font.ttf', 7)
 
 
 m = MainMenu()
