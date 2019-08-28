@@ -9,7 +9,7 @@ from buttons_HW import Buttons_HW
 
 class MainMenu:
 
-    isDebug = True
+    isDebug = False
     selectedItem = 2
     lcd = None
     buttons = None
