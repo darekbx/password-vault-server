@@ -10,7 +10,7 @@ from buttons_HW import HWKey
 
 class MainMenu:
 
-    isDebug = True
+    isDebug = False
     selectedItem = 2
     itemsCount = 3
     lcd = None
@@ -28,8 +28,8 @@ class MainMenu:
         draw = ImageDraw.Draw(image)
 
         self.display_battery(draw, 100, False)
-        #self.display_secrets(draw, ["Gmail", "Facebook", "Lego", "Twitter"])
-        self.font_test(draw)
+        self.display_secrets(draw, ["Gmail", "Facebook", "Lego", "Twitter"])
+        #self.font_test(draw)
 
         self.lcd.show_image(image)
 
@@ -45,7 +45,6 @@ class MainMenu:
     def font_test(self, draw):
         draw.text((14, 12), "Facebook", font = ImageFont.truetype('fonts/nova.ttf', 18), fill = 0)
         draw.text((14, 26), "Facebook", font = ImageFont.truetype('fonts/maki.ttf', 12), fill = 0)
-        draw.text((14, 44), "Facebook", font = ImageFont.truetype('fonts/rabbit.ttf', 12), fill = 0)
 
     def display_secrets(self, draw, secrets):
         x = 4
@@ -73,7 +72,7 @@ class MainMenu:
             draw.line((108, 7, 114, 5, 114, 5, 114, 7, 114, 7, 120, 5), fill = "WHITE")
 
     def provide_font(self):
-        return ImageFont.truetype('fonts/Font.ttf', 18)
+        return ImageFont.truetype('fonts/nova.ttf', 18)
 
 
 m = MainMenu()
