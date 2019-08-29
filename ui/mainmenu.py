@@ -6,11 +6,13 @@ from PIL import ImageColor
 
 from display_LCD import Display_LCD
 from buttons_HW import Buttons_HW
+from buttons_HW import HWKey
 
 class MainMenu:
 
-    isDebug = False
+    isDebug = True
     selectedItem = 2
+    itemsCount = 3
     lcd = None
     buttons = None
 
@@ -32,15 +34,18 @@ class MainMenu:
         self.lcd.show_image(image)
 
     def handle_key(self, key):
-        print(key)
+        if key is HWKey.CENTER:
+            print("center")
+        elif key is HWKey.UP:
+            self.selectedItem = max(0, self.selectedItem - 1)
+        elif key is HWKey.DOWN:
+            self.selectedItem = min(self.itemsCount, self.selectedItem + 1)
+        self.display()
 
     def font_test(self, draw):
-        draw.text((14, 0), "Facebook", font = ImageFont.truetype('fonts/game.ttf', 22), fill = 0)
-        draw.text((14, 12), "Facebook", font = ImageFont.truetype('fonts/mono.ttf', 12), fill = 0)
-        draw.text((14, 26), "Facebook", font = ImageFont.truetype('fonts/smash.ttf', 10), fill = 0)
-        draw.text((14, 32), "Facebook", font = ImageFont.truetype('fonts/wave.ttf', 14), fill = 0)
-        draw.text((14, 44), "Facebook", font = ImageFont.truetype('fonts/apple.ttf', 10), fill = 0)
-        draw.text((14, 52), "Facebook", font = ImageFont.truetype('fonts/pixel.ttf', 10), fill = 0)
+        draw.text((14, 12), "Facebook", font = ImageFont.truetype('fonts/nova.ttf', 18), fill = 0)
+        draw.text((14, 26), "Facebook", font = ImageFont.truetype('fonts/maki.ttf', 12), fill = 0)
+        draw.text((14, 44), "Facebook", font = ImageFont.truetype('fonts/rabbit.ttf', 12), fill = 0)
 
     def display_secrets(self, draw, secrets):
         x = 4
