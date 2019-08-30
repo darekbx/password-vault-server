@@ -10,7 +10,7 @@ from buttons_HW import HWKey
 
 class MainMenu:
 
-    isDebug = True
+    isDebug = False
     selectedItem = 2
     topItemOffset = 0
     itemsCount = 0
@@ -18,7 +18,7 @@ class MainMenu:
     lcd = None
     buttons = None
 
-    secrets = ["Gmail", "Facebook", "Lego", "Twitter", "Onet", "Flurry", "Atalssian"]
+    secrets = ["Gmail", "Facebook", "Lego", "Twitter", "Onet", "Flurry", "Atalassian"]
 
     def init(self):
         self.lcd = Display_LCD(self.isDebug)
@@ -59,7 +59,7 @@ class MainMenu:
                 self.topItemOffset = min(diff, self.topItemOffset + 1)
             else:
                 self.selectedItem = min(self.maxToDisplay, self.selectedItem + 1)
-        
+
         self.display()
 
     def font_test(self, draw):
@@ -71,7 +71,7 @@ class MainMenu:
         y = 10
         is_overflow = False
         font = self.provide_font()
-        
+
         for index, secret in enumerate(secrets[self.topItemOffset:(self.topItemOffset + self.maxToDisplay)]):
             if self.selectedItem == index:
                 draw.ellipse((5, y + 5, 9, y + 9), fill = 0)
@@ -79,10 +79,10 @@ class MainMenu:
             y += 12
 
         if self.topItemOffset > 0:
-            draw.line((120, 17, 123, 14, 126, 17), fill = 0)
+            draw.line((120, 18, 123, 13, 126, 18), fill = 0)
 
-        if (self.selectedItem + self.topItemOffset) is not self.itemsCount - 1:  
-            draw.line((120, 57, 123, 61, 126, 57), fill = 0)
+        if (self.selectedItem + self.topItemOffset) is not self.itemsCount - 1:
+            draw.line((120, 57, 123, 62, 126, 57), fill = 0)
 
     def display_battery(self, draw, battery_level, is_charging=False):
         """
@@ -100,7 +100,7 @@ class MainMenu:
             draw.line((108, 7, 114, 5, 114, 5, 114, 7, 114, 7, 120, 5), fill = "WHITE", width = 21)
 
     def provide_font(self, size = 18):
-        return ImageFont.truetype('fonts/nova.ttf', size)
+        return ImageFont.truetype('/home/pi/password-vault-server/ui/fonts/nova.ttf', size)
 
 
 m = MainMenu()
