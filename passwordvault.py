@@ -1,5 +1,6 @@
 # Requirements
 # python3 -m pip install cryptography
+# python3 -m pip install psutil
 
 from encryption import Encryption
 from storage import Storage

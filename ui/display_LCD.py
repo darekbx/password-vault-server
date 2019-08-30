@@ -1,3 +1,5 @@
+import psutil
+
 class Display_LCD:
 
 	_disp = None
@@ -29,4 +31,7 @@ class Display_LCD:
 		return image
 
 	def debug_ShowImage(self, image):
+		for proc in psutil.process_iter():
+			if proc.name() == "display":
+				proc.kill()
 		image.show()

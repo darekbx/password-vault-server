@@ -2,6 +2,8 @@ import threading
 import time
 from enum import Enum
 
+import sys, tty, termios
+
 class HWKey(Enum):
 	UP = 0
 	DOWN = 1
@@ -22,7 +24,7 @@ class Buttons_HW:
 	def listen_buttons(self, callback):
 		self.callback = callback
 		if self._is_debug:
-			self.handle_key(HWKey.CENTER)
+			threading.Thread(target = self.debug_keylogger).start()
 		else:
 			import RPi.GPIO as GPIO
 			GPIO.setup(self.joystickUp, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -43,3 +45,23 @@ class Buttons_HW:
 
 	def handle_key(self, key):
 		self.callback(key)
+
+	def debug_keylogger(self):
+		lock = threading.Lock()
+		while True:
+			with lock:
+				fd = sys.stdin.fileno()
+				old_settings = termios.tcgetattr(fd)
+				try:
+					tty.setraw(sys.stdin.fileno())
+					ch = sys.stdin.read(1)
+					if ch is 'w':
+						self.handle_key(HWKey.UP)
+					elif ch is 's':
+						self.handle_key(HWKey.DOWN)
+					elif ch is 'c':
+						self.handle_key(HWKey.CENTER)
+					else:
+						sys.exit()
+				finally:
+					termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
