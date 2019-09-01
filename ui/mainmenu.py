@@ -78,11 +78,11 @@ class MainMenu:
             draw.text((14, y), secret, font = font, fill = 0)
             y += 12
 
-        if self.topItemOffset > 0:
-            draw.line((120, 17, 123, 14, 126, 17), fill = 0)
+        #if self.topItemOffset > 0:
+        draw.line((120, 18, 123, 13, 126, 18), fill = 0)
 
-        if (self.selectedItem + self.topItemOffset) is not self.itemsCount - 1:  
-            draw.line((120, 57, 123, 61, 126, 57), fill = 0)
+        #if (self.selectedItem + self.topItemOffset) is not self.itemsCount - 1:  
+        draw.line((120, 57, 123, 62, 126, 57), fill = 0)
 
     def display_battery(self, draw, battery_level, is_charging=False):
         """
