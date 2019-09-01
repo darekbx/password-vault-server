@@ -10,7 +10,7 @@ from buttons_HW import HWKey
 
 class MainMenu:
 
-    isDebug = True
+    isDebug = False
     selectedItem = 2
     topItemOffset = 0
     itemsCount = 0
@@ -18,7 +18,7 @@ class MainMenu:
     lcd = None
     buttons = None
 
-    secrets = ["Gmail", "Facebook", "Lego", "Twitter", "Onet", "Flurry", "Atalssian"]
+    secrets = ["Gmail", "Facebook", "Lego", "Twitter", "Onet", "Flurry", "Atalassian"]
 
     def init(self):
         self.lcd = Display_LCD(self.isDebug)
@@ -69,7 +69,6 @@ class MainMenu:
     def display_secrets(self, draw, secrets):
         x = 4
         y = 10
-        is_overflow = False
         font = self.provide_font()
         
         for index, secret in enumerate(secrets[self.topItemOffset:(self.topItemOffset + self.maxToDisplay)]):
@@ -78,11 +77,11 @@ class MainMenu:
             draw.text((14, y), secret, font = font, fill = 0)
             y += 12
 
-        #if self.topItemOffset > 0:
-        draw.line((120, 18, 123, 13, 126, 18), fill = 0)
+        if self.topItemOffset > 0:
+            draw.line((120, 18, 123, 13, 126, 18), fill = 0)
 
-        #if (self.selectedItem + self.topItemOffset) is not self.itemsCount - 1:  
-        draw.line((120, 57, 123, 62, 126, 57), fill = 0)
+        if (self.selectedItem + self.topItemOffset) is not self.itemsCount - 1:  
+            draw.line((120, 57, 123, 62, 126, 57), fill = 0)
 
     def display_battery(self, draw, battery_level, is_charging=False):
         """
