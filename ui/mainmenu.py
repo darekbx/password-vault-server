@@ -99,7 +99,7 @@ class MainMenu:
             draw.line((108, 7, 114, 5, 114, 5, 114, 7, 114, 7, 120, 5), fill = "WHITE", width = 21)
 
     def provide_font(self, size = 18):
-        return ImageFont.truetype('fonts/nova.ttf', size)
+        return ImageFont.truetype('/home/pi/password-vault-server/ui/fonts/nova.ttf', size)
 
 
 m = MainMenu()
