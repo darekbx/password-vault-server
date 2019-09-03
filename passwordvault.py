@@ -4,7 +4,7 @@
 
 from encryption import Encryption
 from storage import Storage
-from ui.mainmenu import MainMenu
+from mainmenu import MainMenu
 
 class PasswordVault:
 
@@ -16,10 +16,9 @@ class PasswordVault:
 
     def __init__(self):
         self.storage = Storage(self.storage_file)
+    
+    def startDisplay(self):
         self.main_menu = MainMenu()
-
-    def start(self):
-        self.main_menu.display_options()
 
     def initEncryption(self, salt):
         self.encryption = Encryption(salt)
