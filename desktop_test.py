@@ -1,5 +1,4 @@
-from mainmenu import MainMenu
+from passwordvault import PasswordVault
 
-m = MainMenu()
-m.init()
-m.display()
+v = PasswordVault()
+v.startDisplay()

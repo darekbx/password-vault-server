@@ -5,6 +5,7 @@ from PIL import ImageFont
 from PIL import ImageColor
 
 from enum import Enum
+import time
 
 from display_LCD import Display_LCD
 from buttons_HW import Buttons_HW
@@ -28,7 +29,7 @@ class MainMenu:
     backItem = "[BACK]"
     mode = MenuMode.OPTIONS
 
-    secrets = ["Gmail", "Facebook", "Lego", "Twitter", "Onet", "Flurry", "Atalassian", backItem]
+    secretsCallback = None
 
     def init(self):
         self.lcd = Display_LCD(self.isDebug)
@@ -44,7 +45,10 @@ class MainMenu:
         self.display_battery(draw, 100, False)
 
         if self.mode is self.MenuMode.SECRETS:
-            self.display_secrets(draw)
+            secrets = self.secretsCallback()
+            if len(secrets) > 0:
+                secrets.insert(len(secrets), self.backItem)
+            self.display_secrets(draw, secrets)
         elif self.mode is self.MenuMode.SECRET:
             ""
         elif self.mode is self.MenuMode.OPTIONS:
@@ -66,7 +70,7 @@ class MainMenu:
             self.change_mode(self.MenuMode.SECRETS)
         elif self.mode == self.MenuMode.SECRETS:
             item_index = self.topItemOffset + self.selectedItem
-            if item_index == self.itemsCount - 1:
+            if self.itemsCount == 0 or item_index == self.itemsCount - 1:
                 self.change_mode(self.MenuMode.OPTIONS)
 
     def handle_key_up(self):
@@ -97,14 +101,19 @@ class MainMenu:
     def display_secret(self, draw):
         return
 
-    def display_secrets(self, draw):
-        self.display_list(draw, self.secrets)
+    def display_secrets(self, draw, secrets):
+        self.display_list(draw, secrets)
 
     def display_list(self, draw, items):
         y = 10
         font = self.provide_font()
         self.itemsCount = len(items)
         
+        print(self.itemsCount)
+        if self.itemsCount == 0:
+            draw.text((40, 25), "Empty list", font = font, fill = 0)
+            return
+
         for index, item in enumerate(items[self.topItemOffset:(self.topItemOffset + self.maxToDisplay)]):
             if self.selectedItem == index:
                 draw.ellipse((5, y + 5, 9, y + 9), fill = 0)
