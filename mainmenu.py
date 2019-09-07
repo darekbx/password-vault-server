@@ -30,6 +30,7 @@ class MainMenu:
     mode = MenuMode.OPTIONS
 
     secretsCallback = None
+    secretCallback = None
 
     def init(self):
         self.lcd = Display_LCD(self.isDebug)
@@ -50,13 +51,18 @@ class MainMenu:
                 secrets.insert(len(secrets), self.backItem)
             self.display_secrets(draw, secrets)
         elif self.mode is self.MenuMode.SECRET:
-            ""
+            self.display_secret(draw)
         elif self.mode is self.MenuMode.OPTIONS:
             self.display_options(draw)
 
         self.lcd.show_image(image)
 
     def handle_key(self, key):
+        if self.mode == self.MenuMode.SECRET:
+            self.change_mode(self.MenuMode.SECRETS)
+            self.display()
+            return
+
         if key is HWKey.CENTER:
             self.hande_key_center()
         elif key is HWKey.UP:
@@ -72,6 +78,8 @@ class MainMenu:
             item_index = self.topItemOffset + self.selectedItem
             if self.itemsCount == 0 or item_index == self.itemsCount - 1:
                 self.change_mode(self.MenuMode.OPTIONS)
+            else:
+                self.change_mode(self.MenuMode.SECRET)
 
     def handle_key_up(self):
         if self.topItemOffset > 0:
@@ -99,7 +107,17 @@ class MainMenu:
         self.display_list(draw, ["Secrets", "Add"])
 
     def display_secret(self, draw):
-        return
+
+        font = self.provide_font()
+        font_medium = self.provide_font(20)
+
+        item_index = self.topItemOffset + self.selectedItem
+        secrets = self.secretsCallback()
+        secret_name = secrets[item_index]
+        secret = self.secretCallback(secret_name)
+
+        draw.text((4, 10), secret_name, font = font, fill = 0)
+        draw.text((4, 25), secret, font = font_medium, fill = 0)
 
     def display_secrets(self, draw, secrets):
         self.display_list(draw, secrets)
@@ -109,7 +127,6 @@ class MainMenu:
         font = self.provide_font()
         self.itemsCount = len(items)
         
-        print(self.itemsCount)
         if self.itemsCount == 0:
             draw.text((40, 25), "Empty list", font = font, fill = 0)
             return

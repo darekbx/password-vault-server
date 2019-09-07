@@ -21,6 +21,7 @@ class PasswordVault:
         self.main_menu = MainMenu()
         self.main_menu.init()
         self.main_menu.secretsCallback = self.listSecrets
+        self.main_menu.secretCallback = self.retrieveSecret
         self.main_menu.display()
 
     def initEncryption(self, salt):
