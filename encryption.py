@@ -3,7 +3,7 @@ import base64
 
 class Encryption:
 
-    _saltPrefixFile = "salt_prefix"
+    _saltPrefixFile = "/home/pi/password-vault-server/salt_prefix"
     _encoding = "utf-8"
     _saltEncoding = "ascii"
     _saltPrefix = None

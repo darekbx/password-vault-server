@@ -18,7 +18,7 @@ class MainMenu:
         SECRET = 1
         OPTIONS = 2
 
-    isDebug = True
+    isDebug = False
     selectedItem = 0
     topItemOffset = 0
     itemsCount = 0
@@ -160,5 +160,5 @@ class MainMenu:
             draw.line((108, 7, 114, 5, 114, 5, 114, 7, 114, 7, 120, 5), fill = "WHITE", width = 21)
 
     def provide_font(self, size = 18):
-        path = 'fonts/nova.ttf' if self.isDebug else '/home/pi/password-vault-server/ui/fonts/nova.ttf'
+        path = 'fonts/nova.ttf' if self.isDebug else '/home/pi/password-vault-server/fonts/nova.ttf'
         return ImageFont.truetype(path, size)

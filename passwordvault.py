@@ -8,7 +8,7 @@ from mainmenu import MainMenu
 
 class PasswordVault:
 
-    storage_file = "vault.json"
+    storage_file = "/home/pi/password-vault-server/vault.json"
 
     storage = None
     encryption = None
