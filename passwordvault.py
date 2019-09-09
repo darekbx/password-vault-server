@@ -5,10 +5,11 @@
 from encryption import Encryption
 from storage import Storage
 from mainmenu import MainMenu
+import debug
 
 class PasswordVault:
 
-    storage_file = "/home/pi/password-vault-server/vault.json"
+    storage_file = "/home/pi/password-vault-server/vault.json" if not debug.isDebug() else "vault.json"
 
     storage = None
     encryption = None

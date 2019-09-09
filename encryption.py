@@ -1,9 +1,10 @@
 from cryptography.fernet import Fernet
 import base64
+import debug
 
 class Encryption:
 
-    _saltPrefixFile = "/home/pi/password-vault-server/salt_prefix"
+    _saltPrefixFile = "/home/pi/password-vault-server/salt_prefix" if not debug.isDebug() else "salt_prefix"
     _encoding = "utf-8"
     _saltEncoding = "ascii"
     _saltPrefix = None

@@ -10,6 +10,7 @@ import time
 from display_LCD import Display_LCD
 from buttons_HW import Buttons_HW
 from buttons_HW import HWKey
+import debug
 
 class MainMenu:
 
@@ -18,7 +19,6 @@ class MainMenu:
         SECRET = 1
         OPTIONS = 2
 
-    isDebug = False
     selectedItem = 0
     topItemOffset = 0
     itemsCount = 0
@@ -33,10 +33,10 @@ class MainMenu:
     secretCallback = None
 
     def init(self):
-        self.lcd = Display_LCD(self.isDebug)
+        self.lcd = Display_LCD(debug.isDebug())
         self.lcd.init()
 
-        self.buttons = Buttons_HW(self.isDebug)
+        self.buttons = Buttons_HW(debug.isDebug())
         self.buttons.listen_buttons(self.handle_key)
 
     def display(self):
@@ -160,5 +160,5 @@ class MainMenu:
             draw.line((108, 7, 114, 5, 114, 5, 114, 7, 114, 7, 120, 5), fill = "WHITE", width = 21)
 
     def provide_font(self, size = 18):
-        path = 'fonts/nova.ttf' if self.isDebug else '/home/pi/password-vault-server/fonts/nova.ttf'
+        path = 'fonts/nova.ttf' if debug.isDebug() else '/home/pi/password-vault-server/fonts/nova.ttf'
         return ImageFont.truetype(path, size)
