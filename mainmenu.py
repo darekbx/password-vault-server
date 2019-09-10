@@ -10,14 +10,16 @@ import time
 from display_LCD import Display_LCD
 from buttons_HW import Buttons_HW
 from buttons_HW import HWKey
+from saltselect import SaltSelect
 import debug
 
 class MainMenu:
 
     class MenuMode(Enum):
-        SECRETS = 0
-        SECRET = 1
-        OPTIONS = 2
+        SALT_SELECT = 0
+        SECRETS = 1
+        SECRET = 2
+        OPTIONS = 3
 
     selectedItem = 0
     topItemOffset = 0
@@ -27,10 +29,12 @@ class MainMenu:
     buttons = None
 
     backItem = "[BACK]"
-    mode = MenuMode.OPTIONS
+    mode = MenuMode.SALT_SELECT
 
+    saltCallback = None
     secretsCallback = None
     secretCallback = None
+    saltSelect = None
 
     def init(self):
         self.lcd = Display_LCD(debug.isDebug())
@@ -39,13 +43,18 @@ class MainMenu:
         self.buttons = Buttons_HW(debug.isDebug())
         self.buttons.listen_buttons(self.handle_key)
 
+        self.saltSelect = SaltSelect()
+        self.saltSelect.saltCallback = self.salt_callback
+
     def display(self):
         image = Image.new("RGB", self.lcd.dimensions(), "WHITE")
         draw = ImageDraw.Draw(image)
 
         self.display_battery(draw, 100, False)
 
-        if self.mode is self.MenuMode.SECRETS:
+        if self.mode is self.MenuMode.SALT_SELECT:
+            self.display_salt_select(draw)
+        elif self.mode is self.MenuMode.SECRETS:
             secrets = self.secretsCallback()
             if len(secrets) > 0:
                 secrets.insert(len(secrets), self.backItem)
@@ -63,6 +72,11 @@ class MainMenu:
             self.display()
             return
 
+        if self.mode == self.MenuMode.SALT_SELECT:
+            self.saltSelect.handleKey(key)
+            self.display()
+            return
+        
         if key is HWKey.CENTER:
             self.hande_key_center()
         elif key is HWKey.UP:
@@ -103,11 +117,13 @@ class MainMenu:
         self.selectedItem = 0
         self.mode = mode
 
+    def display_salt_select(self, draw):
+        self.saltSelect.display(draw)
+
     def display_options(self, draw):
         self.display_list(draw, ["Secrets", "Add"])
 
     def display_secret(self, draw):
-
         font = self.provide_font()
         font_medium = self.provide_font(20)
 
@@ -158,6 +174,12 @@ class MainMenu:
 
         if is_charging:
             draw.line((108, 7, 114, 5, 114, 5, 114, 7, 114, 7, 120, 5), fill = "WHITE", width = 21)
+
+    def salt_callback(self, salt):
+        result = self.saltCallback(salt)
+        if result:
+            self.change_mode(self.MenuMode.OPTIONS)
+        return result
 
     def provide_font(self, size = 18):
         path = 'fonts/nova.ttf' if debug.isDebug() else '/home/pi/password-vault-server/fonts/nova.ttf'

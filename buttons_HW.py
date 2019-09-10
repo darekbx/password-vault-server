@@ -8,12 +8,16 @@ class HWKey(Enum):
 	UP = 0
 	DOWN = 1
 	CENTER = 2
+	LEFT = 3
+	RIGHT = 4
 
 class Buttons_HW:
 
 	joystickUp = 6
 	joystickDown = 19
 	joystickCenter = 13
+	joystickLeft = 5
+	joystickRight = 26
 	callback = None
 
 	_is_debug = False
@@ -30,6 +34,8 @@ class Buttons_HW:
 			GPIO.setup(self.joystickUp, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 			GPIO.setup(self.joystickDown, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 			GPIO.setup(self.joystickCenter, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+			GPIO.setup(self.joystickLeft, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+			GPIO.setup(self.joystickRight, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 			threading.Thread(target=self.buttons_worker).start()
 
 	def buttons_worker(self):
@@ -41,6 +47,10 @@ class Buttons_HW:
 				self.handle_key(HWKey.DOWN)
 			elif GPIO.input(self.joystickCenter) == False:
 				self.handle_key(HWKey.CENTER)
+			elif GPIO.input(self.joystickLeft) == False:
+				self.handle_key(HWKey.LEFT)
+			elif GPIO.input(self.joystickRight) == False:
+				self.handle_key(HWKey.RIGHT)
 			time.sleep(0.2)
 
 	def handle_key(self, key):
@@ -61,6 +71,10 @@ class Buttons_HW:
 						self.handle_key(HWKey.DOWN)
 					elif ch is 'c':
 						self.handle_key(HWKey.CENTER)
+					elif ch is 'a':
+						self.handle_key(HWKey.LEFT)
+					elif ch is 'd':
+						self.handle_key(HWKey.RIGHT)
 					else:
 						sys.exit()
 				finally:

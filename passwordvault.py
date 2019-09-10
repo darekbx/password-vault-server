@@ -23,10 +23,14 @@ class PasswordVault:
         self.main_menu.init()
         self.main_menu.secretsCallback = self.listSecrets
         self.main_menu.secretCallback = self.retrieveSecret
+        self.main_menu.saltCallback = self.initEncryption
         self.main_menu.display()
 
     def initEncryption(self, salt):
         self.encryption = Encryption(salt)
+
+        # TODO: add salt validation
+        return False
 
     def addSecret(self, key, secret):
         encoded_secret = self.encryption.encode(secret)
