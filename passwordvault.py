@@ -28,8 +28,11 @@ class PasswordVault:
 
     def initEncryption(self, salt):
         self.encryption = Encryption(salt)
-
-        # TODO: add salt validation
+        # Validation
+        secrets = self.storage.read()
+        keys = list(secrets)
+        if len(keys) > 0:
+            return self.encryption.validate(secrets[keys[0]])
         return False
 
     def addSecret(self, key, secret):

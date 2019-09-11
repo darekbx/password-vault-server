@@ -177,6 +177,7 @@ class MainMenu:
 
     def salt_callback(self, salt):
         result = self.saltCallback(salt)
+        print(result)
         if result:
             self.change_mode(self.MenuMode.OPTIONS)
         return result

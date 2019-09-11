@@ -22,6 +22,13 @@ class Encryption:
             self._saltPrefix = handle.readline().rstrip()
         self._salt = salt
 
+    def validate(self, hash):
+        try:
+            self.decode(hash)
+            return True
+        except:
+            return False
+
     def encode(self, secret):
         salt = self._createSalt()
         fernet = Fernet(salt)
