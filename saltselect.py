@@ -5,8 +5,8 @@ import debug
 
 class SaltSelect:
 
-	salt = [1, 2, 3, 4]
-	active_segment = 4
+	salt = [0, 0, 0, 0]
+	active_segment = 0
 	saltCallback = None
 
 	def handleKey(self, key):
