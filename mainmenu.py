@@ -29,7 +29,7 @@ class MainMenu:
     buttons = None
 
     backItem = "[BACK]"
-    mode = MenuMode.SALT_SELECT
+    mode = MenuMode.OPTIONS
 
     saltCallback = None
     secretsCallback = None
@@ -51,6 +51,7 @@ class MainMenu:
         draw = ImageDraw.Draw(image)
 
         self.display_battery(draw, 100, False)
+        self.display_version(draw)
 
         if self.mode is self.MenuMode.SALT_SELECT:
             self.display_salt_select(draw)
@@ -174,6 +175,11 @@ class MainMenu:
 
         if is_charging:
             draw.line((108, 7, 114, 5, 114, 5, 114, 7, 114, 7, 120, 5), fill = "WHITE", width = 21)
+
+    def display_version(self, draw):
+        font = self.provide_font(14)
+        with open("version") as handle:
+            draw.text((110, 52), handle.readline(), font = font, fill = 0)
 
     def salt_callback(self, salt):
         result = self.saltCallback(salt)
