@@ -29,7 +29,7 @@ class MainMenu:
     buttons = None
 
     backItem = "[BACK]"
-    mode = MenuMode.OPTIONS
+    mode = MenuMode.SALT_SELECT
 
     saltCallback = None
     secretsCallback = None
