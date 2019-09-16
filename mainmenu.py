@@ -177,8 +177,9 @@ class MainMenu:
             draw.line((108, 7, 114, 5, 114, 5, 114, 7, 114, 7, 120, 5), fill = "WHITE", width = 21)
 
     def display_version(self, draw):
+        path = 'version' if debug.isDebug() else '/home/pi/password-vault-server/version'
         font = self.provide_font(14)
-        with open("version") as handle:
+        with open(path) as handle:
             draw.text((110, 52), handle.readline(), font = font, fill = 0)
 
     def salt_callback(self, salt):
