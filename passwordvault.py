@@ -11,7 +11,6 @@ import debug
 class PasswordVault:
 
     storage_file = "/home/pi/password-vault-server/vault.json" if not debug.isDebug() else "vault.json"
-    salt_env_variable = "VAULT_SALT"
 
     storage = None
     encryption = None
@@ -34,10 +33,7 @@ class PasswordVault:
         secrets = self.storage.read()
         keys = list(secrets)
         if len(keys) > 0:
-            result = self.encryption.validate(secrets[keys[0]])
-            if result:
-                os.environ[self.salt_env_variable] = salt
-            return result
+            return self.encryption.validate(secrets[keys[0]])
         return False
 
     def addSecret(self, key, secret):

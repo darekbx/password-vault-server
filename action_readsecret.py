@@ -2,9 +2,9 @@ from passwordvault import PasswordVault
 import sys
 import os
 
-if len(sys.argv) == 2:
+if len(sys.argv) == 3:
     key = sys.argv[1]
-    salt = os.environ[PasswordVault.salt_env_variable]
+    salt = sys.argv[2]
     try:
         vault = PasswordVault()
         vault.initEncryption(salt)
